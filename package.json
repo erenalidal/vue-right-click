@@ -36,5 +36,5 @@
     "*.json",
     "*.js"
   ],
-  "main": "./dist/vue-right-click.common.js"
+  "main": "./dist/vue-right-click-scroll.common.js"
 }
