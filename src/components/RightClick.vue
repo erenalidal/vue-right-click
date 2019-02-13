@@ -46,8 +46,8 @@
     }
 
     contextMenuHandler (e: MouseEvent) {
-      this.top = `${e.clientY + document.body.scrollTop + document.documentElement.scrollTop}px`;
-      this.left = `${e.clientX + document.body.scrollLeft + document.documentElement.scrollLeft}px`;
+      this.top = `${e.clientY + document.body.scrollTop}px`;
+      this.left = `${e.clientX + document.body.scrollLeft}px`;
       this.openMenu = true;
     }
 
