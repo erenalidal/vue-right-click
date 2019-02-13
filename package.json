@@ -1,5 +1,5 @@
 {
-  "name": "vue-right-click",
+  "name": "vue-right-click-scroll",
   "version": "3.0.2",
   "scripts": {
     "serve": "vue-cli-service serve",
