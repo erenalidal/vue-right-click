@@ -14,6 +14,8 @@
 
 <script lang="ts">
   import {Component, Prop, Vue} from "vue-property-decorator";
+  // @ts-ignore
+  import vClickOutside from 'v-click-outside'
 
   export type RightClickItem = {
     id: Number,
@@ -22,7 +24,11 @@
     action: String
   }
 
-  @Component
+  @Component({
+    directives: {
+      clickOutside: vClickOutside.directive
+    },
+  })
   export default class RightClick extends Vue {
     @Prop({
       required: true
@@ -41,7 +47,7 @@
     };
 
     mounted() {
-      this.handleEvent = function() {
+      this.handleEvent = function () {
         this.openMenu = false;
       };
       window!.document!.querySelector("html")!.addEventListener("click", this);
