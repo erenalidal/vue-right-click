@@ -1,8 +1,8 @@
 <template>
-  <div @contextmenu.prevent.stop="contextMenuHandler" @blur="blurHandler">
+  <div @contextmenu.prevent.stop="contextMenuHandler" v-click-outside="clickOutsideConfig" @blur="blurHandler">
     <slot></slot>
     <transition name="fade">
-      <ul v-show="openMenu" :style="{top: top, left: left }" class="menu" >
+      <ul v-show="openMenu" :style="{top: top, left: left }" class="menu">
         <li v-for="item in items" @click.prevent="handleClick(item)" :key="item.id">
           <span v-if="item.template" v-html="item.template"></span>
           <span v-else>{{ item.name }}</span>
@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-  import { Component, Prop, Vue } from 'vue-property-decorator';
+  import {Component, Prop, Vue} from "vue-property-decorator";
 
   export type RightClickItem = {
     id: Number,
@@ -26,38 +26,53 @@
   export default class RightClick extends Vue {
     @Prop({
       required: true
-    }) 
+    })
     private items!: Array<Object>;
 
     private openMenu = false;
-    private top = '0';
-    private left = '0';
+    private top = "0";
+    private left = "0";
     public handleEvent!: (evt: Event) => void;
 
-    mounted () {
+    public clickOutsideConfig = {
+      handler: this.onClickOutside,
+      middleware: this.middleware,
+      events: ["dblclick", "click", "contextmenu"]
+    };
+
+    mounted() {
       this.handleEvent = function() {
-        this.openMenu = false
+        this.openMenu = false;
       };
-      window!.document!.querySelector('html')!.addEventListener('contextmenu', this);
+      window!.document!.querySelector("html")!.addEventListener("click", this);
     }
 
-    beforeDestroy () {
-      window!.document!.querySelector('html')!.removeEventListener('contextmenu', this);
+    beforeDestroy() {
+      window!.document!.querySelector("html")!.removeEventListener("click", this);
     }
 
-    contextMenuHandler (e: MouseEvent) {
+    contextMenuHandler(e: MouseEvent) {
+      this.$emit("close");
       this.top = `${e.clientY + document.body.scrollTop}px`;
       this.left = `${e.clientX + document.body.scrollLeft}px`;
       this.openMenu = true;
     }
 
     handleClick(item: RightClickItem) {
-      this.$emit('action', item.action);
-      this.openMenu = false
+      this.$emit("action", item.action);
+      this.openMenu = false;
     }
 
-    blurHandler () {
-      this.openMenu = false
+    onClickOutside() {
+      this.openMenu = false;
+    }
+
+    blurHandler() {
+      this.openMenu = false;
+    }
+
+    middleware(e: any, el: any) {
+      return true;
     }
   }
 </script>
@@ -70,7 +85,7 @@
     border: 1px solid #ebeef5;
     background-color: #fff;
     color: #303133;
-    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .1);
     margin: 0;
     padding: 0;
     cursor: pointer;
@@ -92,6 +107,7 @@
   .fade-enter-active, .fade-leave-active {
     transition: opacity .5s;
   }
+
   .fade-enter, .fade-leave-to {
     opacity: 0;
   }
