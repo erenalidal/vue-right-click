@@ -13,9 +13,10 @@
 </template>
 
 <script lang="ts">
+
   import {Component, Prop, Vue} from "vue-property-decorator";
   // @ts-ignore
-  import vClickOutside from 'v-click-outside'
+  import vClickOutside from "v-click-outside";
 
   export type RightClickItem = {
     id: Number,
@@ -47,7 +48,7 @@
     };
 
     mounted() {
-      this.handleEvent = function () {
+      this.handleEvent = function() {
         this.openMenu = false;
       };
       window!.document!.querySelector("html")!.addEventListener("click", this);
@@ -58,14 +59,15 @@
     }
 
     contextMenuHandler(e: MouseEvent) {
-		window.document.querySelectorAll("ul .menu").forEach((x)=>x.style.display = "none");
-		 this.openMenu = false;
-		 this.$nextTick(()=>{
-		   this.$emit("close");
-		   this.top = "".concat(e.clientY - e.layerY + e.offsetY, "px");
-		   this.left = "".concat(e.clientX - e.layerX + e.offsetX, "px");
-		   this.openMenu = true;
-		 })
+      // @ts-ignore
+      window.document.querySelectorAll("ul .menu").forEach((x) => {x.style.display = "none"});
+      this.openMenu = false;
+      this.$nextTick(() => {
+        this.$emit("close");
+        this.top = String(e.clientY - e.layerY + e.offsetY) + "px";
+        this.left = String(e.clientX - e.layerX + e.offsetX) + "px";
+        this.openMenu = true;
+      });
     }
 
     handleClick(item: RightClickItem) {
