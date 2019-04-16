@@ -58,10 +58,14 @@
     }
 
     contextMenuHandler(e: MouseEvent) {
-      this.$emit("close");
-      this.top = `${e.clientY + document.body.scrollTop}px`;
-      this.left = `${e.clientX + document.body.scrollLeft}px`;
-      this.openMenu = true;
+		window.document.querySelectorAll("ul .menu").forEach((x)=>x.style.display = "none");
+		 this.openMenu = false;
+		 this.$nextTick(()=>{
+		   this.$emit("close");
+		   this.top = "".concat(e.clientY - e.layerY + e.offsetY, "px");
+		   this.left = "".concat(e.clientX - e.layerX + e.offsetX, "px");
+		   this.openMenu = true;
+		 })
     }
 
     handleClick(item: RightClickItem) {
