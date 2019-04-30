@@ -64,8 +64,11 @@
       this.openMenu = false;
       this.$nextTick(() => {
         this.$emit("close");
+        // @ts-ignore
+        let modal = e.path.find( x => x.offsetLeft && x.classList.contains('modal-dialog'));
+        let offset = modal && modal.offsetLeft || 0;
         this.top = String(e.clientY - e.layerY + e.offsetY) + "px";
-        this.left = String(e.clientX - e.layerX + e.offsetX) + "px";
+        this.left = String(e.clientX - e.layerX + e.offsetX - offset) + "px";
         this.openMenu = true;
       });
     }
